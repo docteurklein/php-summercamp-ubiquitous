@@ -1,0 +1,94 @@
+
+parameters:
+    database_host: localhost
+    database_port: 3306
+    database_name: websc
+    database_user: root
+    database_password: root
+
+framework:
+    form: true
+    translator:
+        fallback: en
+    secret:          test
+    router:
+        resource: "%kernel.root_dir%/Resources/config/routing.yml"
+    validation:      { enable_annotations: true }
+    templating:
+        engines: ['twig']
+    default_locale:  en
+    session:
+        # handler_id set to null will use default session handler from php.ini
+        handler_id:  ~
+    http_method_override: true
+
+twig:
+    debug:            "%kernel.debug%"
+    strict_variables: "%kernel.debug%"
+    date:
+        format: 'd/m/Y'
+
+doctrine:
+    dbal:
+        driver:   pdo_mysql
+        host:     "%database_host%"
+        port:     "%database_port%"
+        dbname:   "%database_name%"
+        user:     "%database_user%"
+        password: "%database_password%"
+        server_version: 5.6
+        charset:  UTF8
+    orm:
+        default_entity_manager: default
+        auto_generate_proxy_classes: "%kernel.debug%"
+        metadata_cache_driver: array
+        query_cache_driver: array
+        result_cache_driver: array
+        naming_strategy: doctrine.orm.naming_strategy.default
+        auto_mapping: false
+        mappings:
+            Qspot:
+                mapping: true
+                type: annotation
+                dir: '%project.root_dir%/App/Domain/Model'
+                alias: App
+                prefix: App\Domain\Model
+                is_bundle: false
+
+fos_rest:
+    view:
+        view_response_listener: true
+    format_listener:
+        rules:
+            -
+                path: '^/'
+                priorities: ['json', 'html']
+                fallback_format: html
+                prefer_extension: false
+
+    serializer:
+        serialize_null: true
+
+jms_serializer:
+    visitors:
+        json:
+            options: JSON_PRETTY_PRINT
+
+jms_di_extra:
+    doctrine_integration: false
+    cache_warmer:
+        enabled: false
+    locations:
+        all_bundles: false
+        bundles: [App]
+        directories:
+            - "%project.root_dir%"
+            - "%project.root_dir%/App/Domain"
+
+monolog:
+    handlers:
+        main:
+            type:   stream
+            path:   "php://stderr"
+            level:  debug
+            channels: [!event, !php]

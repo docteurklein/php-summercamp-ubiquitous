@@ -15,13 +15,20 @@ default:
                     selenium2:
                         wd_host: localhost:4444/wd/hub
 
+        Behat\Symfony2Extension:
+            kernel:
+                bootstrap: false
+                path: src/App/Infra/Symfony/Kernel.php
+                class: App\Infra\Symfony\Kernel
+
     autoload:
         '': '%paths.base%/'
 
     suites:
         domain:
             contexts:
-                - features\Context\Domain: []
+                - features\Context\Domain:
+                    - '@service_container'
 
         ui:
             contexts:

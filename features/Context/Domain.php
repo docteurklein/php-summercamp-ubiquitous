@@ -7,11 +7,15 @@ use Behat\Behat\Context\Context;
 use Behat\Behat\Context\SnippetAcceptingContext;
 use Behat\Gherkin\Node\PyStringNode;
 use Behat\Gherkin\Node\TableNode;
+use Symfony\Component\DependencyInjection\ContainerInterface;
+use App\Domain\Model\Product;
+use Prophecy\Argument;
 
 class Domain implements Context, SnippetAcceptingContext
 {
-    public function __construct()
+    public function __construct(ContainerInterface $container)
     {
+        $this->container = $container;
     }
 
     /**
@@ -19,7 +23,10 @@ class Domain implements Context, SnippetAcceptingContext
      */
     public function aTest()
     {
-        $test = new \App\Test;
-        $test->test();
+        $repo = $this->container->get('repo.products.prophecy');
+        $task = $this->container->get('task.add_product');
+        $task->__invoke('some product', 'some price');
+
+        $repo->add(Argument::type(Product::class))->shouldHaveBeenCalled();
     }
 }
