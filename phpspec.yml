@@ -1,0 +1,6 @@
+extensions:
+    - RMiller\BehatSpec\PhpSpecExtension
+
+rerunner:
+    path: vendor/bin/phpspec
+    commands: [describe, exemplify]

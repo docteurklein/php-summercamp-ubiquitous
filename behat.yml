@@ -1,0 +1,28 @@
+default:
+    extensions:
+        RMiller\BehatSpec\BehatExtension:
+            path:  vendor/bin/phpspec
+
+        Behat\MinkExtension:
+            show_auto: true
+            base_url: 'http://localhost:8080'
+            default_session: default
+            javascript_session: js
+            sessions:
+                default:
+                    goutte: ~
+                js:
+                    selenium2:
+                        wd_host: localhost:4444/wd/hub
+
+    autoload:
+        '': '%paths.base%/'
+
+    suites:
+        domain:
+            contexts:
+                - features\Context\Domain: []
+
+        ui:
+            contexts:
+                - features\Context\Ui: []
