@@ -23,6 +23,8 @@ class Domain implements Context, SnippetAcceptingContext
      */
     public function aTest()
     {
+        $test = new \App\Test();
+        $test->test('cu');
         $repo = $this->container->get('repo.products.prophecy');
         $task = $this->container->get('task.add_product');
         $task->__invoke('some product', 'some price');

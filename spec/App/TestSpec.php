@@ -2,6 +2,7 @@
 
 namespace spec\App;
 
+use App\Test;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 
@@ -9,11 +10,10 @@ class TestSpec extends ObjectBehavior
 {
     function it_is_initializable()
     {
-        $this->shouldHaveType('App\Test');
+        $this->shouldHaveType(Test::class);
     }
 
-    public function it_should_test()
-    {
+    function its_test_does_stuff() {
         $this->test();
     }
 }

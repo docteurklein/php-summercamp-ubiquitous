@@ -21,15 +21,14 @@
         "jms/serializer-bundle": "^1.1"
     },
     "require-dev": {
-        "rmiller/behat-spec": "^0.3.0",
-        "rmiller/exemplify-extension": "dev-use-question-helper as 0.2.0",
         "behat/mink-selenium2-driver": "^1.3",
         "behat/mink-extension": "^2.2",
         "behat/mink-goutte-driver": "^1.2",
         "docteurklein/test-double-bundle": "^1.0",
         "behat/symfony2-extension": "^2.1",
-        "rmiller/phpspec-extension": "^0.2.1",
-        "rmiller/error-extension": "dev-fix/case-mismatch as 0.1.1"
+        "behat/behat": "dev-feature/exception-handlers as 3.2.0",
+        "phpspec/phpspec": "^3.0",
+        "memio/spec-gen": "^0.6.1"
     },
     "repositories": [
         {

@@ -1,7 +1,7 @@
 default:
     extensions:
-        RMiller\BehatSpec\BehatExtension:
-            path:  vendor/bin/phpspec
+
+        App\Behat\Extension\Emergent: ~
 
         Behat\MinkExtension:
             show_auto: true
