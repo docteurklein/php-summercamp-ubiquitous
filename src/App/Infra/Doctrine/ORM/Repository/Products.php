@@ -18,4 +18,9 @@ class Products extends EntityRepository implements Repository\Products
     {
         $this->_em->persist($product);
     }
+
+    public function getByName($name): Product
+    {
+        return $this->findOneBy(['name' => $name]);
+    }
 }

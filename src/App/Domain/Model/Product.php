@@ -16,4 +16,22 @@ class Product
      */
     private $id;
 
+    private $name;
+    private $price;
+
+    public function __construct($name, $price)
+    {
+        $this->name = $name;
+        $this->price = $price;
+    }
+
+    public static function namedAndPriced($name, $price)
+    {
+        return new self($name, $price);
+    }
+
+    public function getPrice()
+    {
+        return $this->price;;
+    }
 }

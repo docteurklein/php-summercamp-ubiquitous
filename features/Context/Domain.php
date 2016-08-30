@@ -16,6 +16,7 @@ class Domain implements Context, SnippetAcceptingContext
     public function __construct(ContainerInterface $container)
     {
         $this->container = $container;
+        $this->products = $this->container->get('repo.products.prophecy');
     }
 
     /**
@@ -25,10 +26,62 @@ class Domain implements Context, SnippetAcceptingContext
     {
         $test = new \App\Test();
         $test->test('cu');
-        $repo = $this->container->get('repo.products.prophecy');
+
         $task = $this->container->get('task.add_product');
         $task->__invoke('some product', 'some price');
 
-        $repo->add(Argument::type(Product::class))->shouldHaveBeenCalled();
+        $this->products->add(Argument::type(Product::class))->shouldHaveBeenCalled();
+    }
+
+    /**
+     * @Given a product named :name and priced €:price was added to the catalog
+     */
+    public function aProductNamedAndPricedWasAddedToThecatalog($name, $price)
+    {
+        $this->product = \App\Domain\Model\Product::namedAndPriced($name, $price);
+        $this->products->getByName($name)->willReturn($this->product);
+    }
+
+    /**
+     * @When I add the :name product from the catalog to the picked up basket
+     */
+    public function iAddTheProductFromThecatalogToThePickedUpBasket($name)
+    {
+        $this->basket = \App\Domain\Model\Basket::forUser(new \App\Domain\Model\Visitor);
+        $this->basket->add($this->products->reveal()->getByName($name));
+    }
+
+    /**
+     * @Then the overall basket price should be €:price
+     */
+    public function theOverallBasketPriceShouldBe($price)
+    {
+        if ($this->basket->getOverallPrice() != $price) {
+            throw new \Exception($this->basket->getOverallPrice());
+        }
+    }
+
+    /**
+     * @Given an out-of-stock product
+     */
+    public function anOutOfStockProduct()
+    {
+        throw new PendingException();
+    }
+
+    /**
+     * @When I try to add it to my cart
+     */
+    public function iTryToAddItToMyCart()
+    {
+        throw new PendingException();
+    }
+
+    /**
+     * @Then the basket shouldn't be modified
+     */
+    public function theBasketShouldnTBeModified()
+    {
+        throw new PendingException();
     }
 }
