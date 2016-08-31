@@ -10,9 +10,10 @@ class Basket
     private $visitor;
     private $products = [];
 
-    public function __construct(Visitor $visitor)
+    public function __construct(Visitor $visitor, $shippingCost = 4)
     {
         $this->visitor = $visitor;
+        $this->shippingCost = $shippingCost;
     }
 
     public static function forUser(Visitor $user)
@@ -29,6 +30,6 @@ class Basket
     {
         return array_sum(array_map( function($product) {
             return $product->getPrice();
-        }, $this->products));
+        }, $this->products)) + $this->shippingCost;
     }
 }
