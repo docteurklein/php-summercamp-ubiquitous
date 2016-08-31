@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace App\Domain\Model;
 
@@ -16,7 +16,7 @@ class Basket
         $this->shippingCost = $shippingCost;
     }
 
-    public static function forUser(Visitor $user)
+    public static function forUser(Visitor $user): self
     {
         return new self($user);
     }
@@ -26,7 +26,7 @@ class Basket
         $this->products[] = $product;
     }
 
-    public function getOverallPrice()
+    public function getOverallPrice(): int
     {
         return array_sum(array_map( function($product) {
             return $product->getPrice();

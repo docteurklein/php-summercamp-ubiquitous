@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace App\Infra\Symfony\Controller;
 
@@ -14,7 +14,7 @@ final class Test extends Controller
      */
     public function __invoke()
     {
-        $this->get('repo.products')->add(new Product);
+        $this->get('repo.products')->add(Product::namedAndPriced('test', 21));
 
         return new Response;
     }

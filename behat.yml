@@ -33,3 +33,4 @@ default:
         ui:
             contexts:
                 - features\Context\Ui: []
+            filters: '@ui'

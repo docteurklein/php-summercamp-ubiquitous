@@ -28,7 +28,7 @@ class Domain implements Context, SnippetAcceptingContext
         $test->test('cu');
 
         $task = $this->container->get('task.add_product');
-        $task->__invoke('some product', 'some price');
+        $task('some product', 12);
 
         $this->products->add(Argument::type(Product::class))->shouldHaveBeenCalled();
     }
@@ -38,7 +38,7 @@ class Domain implements Context, SnippetAcceptingContext
      */
     public function aProductNamedAndPricedWasAddedToThecatalog($name, $price)
     {
-        $this->product = \App\Domain\Model\Product::namedAndPriced($name, $price);
+        $this->product = \App\Domain\Model\Product::namedAndPriced($name, (int)$price);
         $this->products->getByName($name)->willReturn($this->product);
     }
 

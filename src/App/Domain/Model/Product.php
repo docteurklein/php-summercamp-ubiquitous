@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace App\Domain\Model;
 
@@ -25,12 +25,12 @@ class Product
         $this->price = $price;
     }
 
-    public static function namedAndPriced($name, $price)
+    public static function namedAndPriced($name, $price): self
     {
         return new self($name, $price);
     }
 
-    public function getPrice()
+    public function getPrice(): int
     {
         return $this->price;;
     }

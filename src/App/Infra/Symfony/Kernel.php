@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace App\Infra\Symfony;
 
@@ -16,6 +16,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Debug\Debug;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
+
 
 class Kernel extends HttpKernel\Kernel implements BundleInterface, CompilerPassInterface
 {
