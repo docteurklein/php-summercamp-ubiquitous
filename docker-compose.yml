@@ -1,0 +1,21 @@
+version: '2'
+
+services:
+    php:
+        build: .
+        depends_on:
+            - db
+        command: '-S 0.0.0.0:8080 -t web'
+        environment:
+            SYMFONY_CACHE_DIR: /dev/shm/
+
+    db:
+        image: postgres:9.6
+        environment:
+            POSTGRES_DB: websc16
+            POSTGRES_USER: websc16
+            POSTGRES_PASSWORD: websc16
+
+    webdriver:
+        image: cmfatih/phantomjs
+        command: phantomjs --webdriver 0.0.0.0:4444

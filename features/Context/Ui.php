@@ -14,6 +14,7 @@ class Ui extends RawMinkContext implements Context, SnippetAcceptingContext
      */
     public function aTest()
     {
-        $this->visitPath('/');
+        $this->visitPath('/test');
+        $this->assertSession()->statusCodeEquals(201);
     }
 }

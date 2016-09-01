@@ -100,12 +100,12 @@ class Kernel extends HttpKernel\Kernel implements BundleInterface, CompilerPassI
 
     public function getCacheDir()
     {
-        return (getenv('SYMFONY_CACHE_DIR') ?: __DIR__.'/../../../cache/').$this->environment;
+        return (getenv('SYMFONY_CACHE_DIR') ?: __DIR__.'/../../../../cache/').$this->environment;
     }
 
     public function getLogDir()
     {
-        return getenv('SYMFONY_LOGS_DIR') ?: __DIR__.'/../../../logs';
+        return getenv('SYMFONY_LOGS_DIR') ?: __DIR__.'/../../../../logs';
     }
 
     protected function getKernelParameters()
@@ -130,9 +130,26 @@ class Kernel extends HttpKernel\Kernel implements BundleInterface, CompilerPassI
             if ($bundle !== $this) {
                 $bundle->boot();
             }
+            else {
+                $this->replaceSyntheticService();
+            }
         }
 
         $this->booted = true;
+    }
+
+    private function replaceSyntheticService()
+    {
+        foreach ($this->container->getParameter('transactional_services') as $id => $decoratedId) {
+            $this->container->set($id, function() use($decoratedId) {
+                $arguments = func_get_args();
+                $em = $this->container->get('doctrine')->getManager();
+
+                return $em->transactional(function($em) use($arguments, $decoratedId) {
+                    return call_user_func_array($this->container->get($decoratedId), $arguments);
+                });
+            });
+        }
     }
 
     public function shutdown()
@@ -201,6 +218,18 @@ class Kernel extends HttpKernel\Kernel implements BundleInterface, CompilerPassI
                 $container->setAlias($id, 'repo.'.str_replace('\\', '_', $config['for']));
             }
         }
+
+        $transactional_services = [];
+        foreach ($container->findTaggedServiceIds('transactional') as $id => $configs) {
+            foreach ($configs as $config) {
+                $decoratedId = $id.'.decorated';
+                $decorated = $container->getDefinition($id);
+                $container->setDefinition($decoratedId, $decorated);
+                $container->setDefinition($id, (new Definition)->setSynthetic(true));
+                $transactional_services[$id] = $decoratedId;
+            }
+        }
+        $container->setParameter('transactional_services', $transactional_services);
     }
 
     public function setContainer(ContainerInterface $container = null)

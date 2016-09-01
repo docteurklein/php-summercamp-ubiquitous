@@ -16,7 +16,14 @@ class Product
      */
     private $id;
 
+    /**
+     * @ORM\Column(type="string")
+     */
     private $name;
+
+    /**
+     * @ORM\Column(type="bigint")
+     */
     private $price;
 
     public function __construct($name, $price)

@@ -1,16 +1,16 @@
 
 parameters:
-    database_host: localhost
-    database_port: 3306
-    database_name: websc
-    database_user: root
-    database_password: root
+    database_host: db
+    database_port: 5432
+    database_name: websc16
+    database_user: websc16
+    database_password: websc16
 
 framework:
     form: true
     translator:
         fallback: en
-    secret:          test
+    secret: websc16
     router:
         resource: "%kernel.root_dir%/Resources/config/routing.yml"
     validation:      { enable_annotations: true }
@@ -30,7 +30,7 @@ twig:
 
 doctrine:
     dbal:
-        driver:   pdo_mysql
+        driver:   pdo_pgsql
         host:     "%database_host%"
         port:     "%database_port%"
         dbname:   "%database_name%"

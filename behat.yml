@@ -5,6 +5,7 @@ default:
 
         Behat\MinkExtension:
             show_auto: true
+            show_cmd: /bin/true
             base_url: 'http://localhost:8080'
             default_session: default
             javascript_session: js
@@ -13,7 +14,7 @@ default:
                     goutte: ~
                 js:
                     selenium2:
-                        wd_host: localhost:4444/wd/hub
+                        wd_host: webdriver:4444/wd/hub
 
         Behat\Symfony2Extension:
             kernel:

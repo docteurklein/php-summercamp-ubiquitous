@@ -14,8 +14,10 @@ final class Test extends Controller
      */
     public function __invoke()
     {
-        $this->get('repo.products')->add(Product::namedAndPriced('test', 21));
+        ($this->get('task.add_product'))('test', 21); // write
 
-        return new Response;
+        $product = $this->get('repo.products')->getByName('test'); // read
+
+        return new Response(print_r($product, true), 201);
     }
 }

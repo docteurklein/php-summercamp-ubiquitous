@@ -8,6 +8,7 @@ use JMS\DiExtraBundle\Annotation as DI;
 
 /**
  * @DI\Service("task.add_product")
+ * @DI\Tag("transactional")
  */
 final class AddProduct
 {
