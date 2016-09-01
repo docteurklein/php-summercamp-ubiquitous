@@ -7,80 +7,46 @@ use Behat\Behat\Context\Context;
 use Behat\Behat\Context\SnippetAcceptingContext;
 use Behat\Gherkin\Node\PyStringNode;
 use Behat\Gherkin\Node\TableNode;
-use Symfony\Component\DependencyInjection\ContainerInterface;
-use App\Domain\Model\Product;
-use Prophecy\Argument;
+use \App\Domain\Model;
 
+/**
+ * Defines application features from the specific context.
+ */
 class Domain implements Context, SnippetAcceptingContext
 {
-    public function __construct(ContainerInterface $container)
-    {
-        $this->container = $container;
-        $this->products = $this->container->get('repo.products.prophecy');
-    }
-
     /**
-     * @Given a test
+     * Initializes context.
+     *
+     * Every scenario gets its own context instance.
+     * You can also pass arbitrary arguments to the
+     * context constructor through behat.yml.
      */
-    public function aTest()
+    public function __construct()
     {
-        $test = new \App\Test();
-        $test->test('cu');
-
-        $task = $this->container->get('task.add_product');
-        $task('some product', 12);
-
-        $this->products->add(Argument::type(Product::class))->shouldHaveBeenCalled();
     }
 
     /**
      * @Given a product named :name and priced €:price was added to the catalog
      */
-    public function aProductNamedAndPricedWasAddedToThecatalog($name, $price)
+    public function aProductNamedAndPricedEuWasAddedToTheCatalog($name, $price)
     {
-        $this->product = \App\Domain\Model\Product::namedAndPriced($name, (int)$price);
-        $this->products->getByName($name)->willReturn($this->product);
+        $this->product = Model\Product::namedAndPrice($name, (int) $price);
+        $this->catalog = new Model\Catalog;
+        $this->catalog->add($this->product);
     }
 
     /**
-     * @When I add the :name product from the catalog to the picked up basket
+     * @When I add the :arg1 product from the catalog to the picked up basket
      */
-    public function iAddTheProductFromThecatalogToThePickedUpBasket($name)
-    {
-        $this->basket = \App\Domain\Model\Basket::forUser(new \App\Domain\Model\Visitor);
-        $this->basket->add($this->products->reveal()->getByName($name));
-    }
-
-    /**
-     * @Then the overall basket price should be €:price
-     */
-    public function theOverallBasketPriceShouldBe($price)
-    {
-        if ($this->basket->getOverallPrice() != $price) {
-            throw new \Exception($this->basket->getOverallPrice());
-        }
-    }
-
-    /**
-     * @Given an out-of-stock product
-     */
-    public function anOutOfStockProduct()
+    public function iAddTheProductFromTheCatalogToThePickedUpBasket($arg1)
     {
         throw new PendingException();
     }
 
     /**
-     * @When I try to add it to my cart
+     * @Then the overall basket price should be €:arg1
      */
-    public function iTryToAddItToMyCart()
-    {
-        throw new PendingException();
-    }
-
-    /**
-     * @Then the basket shouldn't be modified
-     */
-    public function theBasketShouldnTBeModified()
+    public function theOverallBasketPriceShouldBeEu($arg1)
     {
         throw new PendingException();
     }

@@ -8,12 +8,12 @@ use Prophecy\Argument;
 
 class ProductSpec extends ObjectBehavior
 {
-    function let()
+    function it_is_initializable()
     {
-        $this->beConstructedWith('test', 20);
+        $this->shouldHaveType(Product::class);
     }
 
-    function its_getPrice_does_stuff() {
-        $this->getPrice();
+    function its_namedAndPrice_constructs_a_named_product() {
+        $this->beConstructedThrough('namedAndPrice', ['name', 10]);
     }
 }

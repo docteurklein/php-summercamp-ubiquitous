@@ -1,44 +1,15 @@
-<?php declare(strict_types=1);
+<?php
 
 namespace App\Domain\Model;
 
-use Doctrine\ORM\Mapping as ORM;
-
-/**
- * @ORM\Entity(repositoryClass="App\Infra\Doctrine\ORM\Repository\Products")
- */
 class Product
 {
-    /**
-     * @ORM\Id
-     * @ORM\GeneratedValue
-     * @ORM\Column(type="bigint")
-     */
-    private $id;
-
-    /**
-     * @ORM\Column(type="string")
-     */
-    private $name;
-
-    /**
-     * @ORM\Column(type="bigint")
-     */
-    private $price;
-
-    public function __construct($name, $price)
+    public static function namedAndPrice(string $name, int $price)
     {
-        $this->name = $name;
-        $this->price = $price;
-    }
+        $product = new self;
+        $product->name = $name;
+        $product->price = $price;
 
-    public static function namedAndPriced($name, $price): self
-    {
-        return new self($name, $price);
-    }
-
-    public function getPrice(): int
-    {
-        return $this->price;;
+        return $product;
     }
 }

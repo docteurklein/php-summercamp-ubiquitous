@@ -46,9 +46,9 @@ class RunPhpSpecForClass extends \Behat\Testwork\Call\Handler\Exception\ClassNot
 {
     protected function handleNonExistentClass($class)
     {
-        shell_exec(sprintf('phpspec desc %s', escapeshellarg($class)));
+        shell_exec(sprintf('vendor/bin/phpspec desc %s', escapeshellarg($class)));
         $file = sprintf('spec/%sSpec.php', str_replace('\\', '/', $class));
-        shell_exec(sprintf('phpspec run %s', $file));
+        shell_exec(sprintf('vendor/bin/phpspec run %s', $file));
     }
 }
 
@@ -87,7 +87,7 @@ PHP
         );
         file_put_contents($file, $code);
 
-        passthru(sprintf('phpspec run %s', $file));
+        passthru(sprintf('vendor/bin/phpspec run %s', $file));
     }
 }
 

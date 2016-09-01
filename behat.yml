@@ -29,7 +29,6 @@ default:
         domain:
             contexts:
                 - features\Context\Domain:
-                    - '@service_container'
 
         ui:
             contexts:
