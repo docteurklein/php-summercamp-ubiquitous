@@ -6,7 +6,7 @@ default:
         Behat\MinkExtension:
             show_auto: true
             show_cmd: /bin/true
-            base_url: 'http://localhost:8080'
+            base_url: 'http://localhost:8081'
             default_session: default
             javascript_session: js
             sessions:
@@ -33,5 +33,6 @@ default:
 
         ui:
             contexts:
-                - features\Context\Ui: []
+                - features\Context\Ui:
+                    - '@service_container'
             filters: '@ui'

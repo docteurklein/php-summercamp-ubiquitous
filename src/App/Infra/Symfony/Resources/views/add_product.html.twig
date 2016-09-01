@@ -1,0 +1,6 @@
+
+{{ dump(product)}}
+
+<form method="post" action="{{ path('add_to_cart', {name: product.name})}}">
+    <input type="submit" value="add to cart"/>
+</form>

@@ -1,10 +1,10 @@
 
 parameters:
-    database_host: db
-    database_port: 5432
-    database_name: websc16
-    database_user: websc16
-    database_password: websc16
+    database_host: localhost
+    database_port: 3306
+    database_name: ubiquitous
+    database_user: root
+    database_password: null
 
 framework:
     form: true
@@ -30,7 +30,7 @@ twig:
 
 doctrine:
     dbal:
-        driver:   pdo_pgsql
+        driver:   pdo_mysql
         host:     "%database_host%"
         port:     "%database_port%"
         dbname:   "%database_name%"

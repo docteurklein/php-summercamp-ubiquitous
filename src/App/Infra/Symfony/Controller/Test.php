@@ -4,7 +4,6 @@ namespace App\Infra\Symfony\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use FOS\RestBundle\Controller\Annotations\Get;
-use App\Domain\Model\Product;
 use Symfony\Component\HttpFoundation\Response;
 
 final class Test extends Controller
